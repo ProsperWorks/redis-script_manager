@@ -3,9 +3,9 @@ class Redis
     #
     # Version plan:
     #
-    # 0.0.1 - still in Prosperworks/ALI/vendor/gems/redis-key_hash
+    # 0.0.1 - still in Prosperworks/ALI/vendor/gems/redis-script_manager
     #
-    # 0.0.2 - broke out into Prosperworks/redis-key_hash
+    # 0.0.2 - broke out into Prosperworks/redis-script_manager
     #
     # 0.1.0 - big README.md and Rdoc update, open repo
     #
