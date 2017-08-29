@@ -1,5 +1,14 @@
-sudo: false
+sudo:     true
 language: ruby
 rvm:
   - 2.1.6
-before_install: gem install bundler -v 1.14.6
+addons:
+  apt:
+    packages:
+    - redis-server
+before_install:
+  - gem install bundler -v 1.14.6
+install:
+  - sudo systemctl restart redis-server.service
+script:
+  - bundle exec env REDIS_URL=redis://localhost:6379 rake test
