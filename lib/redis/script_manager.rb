@@ -3,8 +3,6 @@ require "redis/script_manager/version"
 class Redis
   class ScriptManager
 
-    # TODO: rubocop
-
     # TODO: rdoc
 
     # Efficiently evaluates a Lua script on Redis.
