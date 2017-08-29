@@ -103,7 +103,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    # Configure Redis::ScriptManager from the ENV.
+    #
+    Redis::ScriptManager.configure do |config|
+      config.statsd             = $statsd
+      config.stats_prefix       = 'profile.redis_util.'
+      config.do_minify_lua      = 'true' == ENV['MY_PREF_MINIFY_LUA']
+      config.max_tiny_lua       = ENV['MY_PREF_MAGIC_SIZE_LIMIT'] || 512
+      config.do_preload         = 'true' == ENV['MY_PREF_PRELOADED_SHAS']
+      config.preload_cache_size = ENV['MY_PREF_PRELOADED_SHAS_MAX_SIZE']
+    end
+
+    # Invoke Redis::ScriptManager.eval_gently just like Redis.eval.
+    #
+    Redis.eval('return KEYS',keys: ['k1'],argv: ['a1'])
+    Redis::ScriptManager.eval_gently('return KEYS',keys: ['k1'],argv: ['a1'])
 
 ## Development
 
