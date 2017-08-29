@@ -1,4 +1,4 @@
-# Redis::ScriptManager
+# Redis::ScriptManager ![TravisCI](https://travis-ci.org/ProsperWorks/redis-script_manager.svg?branch=master)
 
 Redis::ScriptManager executes your Lua scripts in your Redis
 infrastructure while managing trade-offs between bandwidth and
