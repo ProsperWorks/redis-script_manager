@@ -26,8 +26,6 @@ class Redis
     # @return the return result of evaluating lua against keys and args
     # on redis
     #
-    # TODO: Should this just monkey-patch over Redis.eval?
-    #
     def self.eval_gently(redis,lua,keys=[],args=[])
       [:eval,:evalsha,:script,:client].each do |method|
         if !redis.respond_to?(method) || !redis.respond_to?(:script)
