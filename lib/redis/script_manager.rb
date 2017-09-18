@@ -1,6 +1,10 @@
 require "redis/script_manager/version"
 
 class Redis
+
+  # Utility to efficiently manage SCRIPT LOAD, EVAL, and EVALSHA over
+  # all Redis/Lua scripts.
+  #
   class ScriptManager
 
     # TODO: rdoc
@@ -74,7 +78,7 @@ class Redis
       # within a pipeline.
       #
       if configuration.do_minify_lua
-        lua = self.minify_lua(lua)
+        lua = minify_lua(lua)
       end
       if lua.size < configuration.max_tiny_lua
         _statsd_increment("eval")
@@ -113,20 +117,18 @@ class Redis
         #
         sha                = Digest::SHA1.hexdigest(lua)
         sha_connection_key = [redis.object_id,sha]
-        if !@@preloaded_shas.include?(sha_connection_key)
+        if !@preloaded_shas.include?(sha_connection_key)
           _statsd_increment("preloaded_shas.cache_miss")
           new_sha = redis.script(:load,lua)
-          if !new_sha.is_a?(Redis::Future)
-            if sha != new_sha
-              raise RuntimeError, "mismatch #{sha} vs #{new_sha} for lua #{lua}"
-            end
+          if !new_sha.is_a?(Redis::Future) && sha != new_sha
+            raise RuntimeError, "mismatch #{sha} vs #{new_sha} for lua #{lua}"
           end
-          @@preloaded_shas << sha_connection_key
+          @preloaded_shas  << sha_connection_key
         else
           _statsd_increment("preloaded_shas.cache_hit")
         end
         result   = redis.evalsha(sha,keys,args)
-        if configuration.preload_cache_size < @@preloaded_shas.size
+        if configuration.preload_cache_size < @preloaded_shas.size
           #
           # To defend against unbound cache size, at a predetermined
           # limit throw away half of them.
@@ -138,10 +140,10 @@ class Redis
           # bound.
           #
           _statsd_increment("preloaded_shas.cache_purge")
-          num_to_keep      = @@preloaded_shas.size / 2
-          @@preloaded_shas = @@preloaded_shas.to_a.sample(num_to_keep)
+          num_to_keep      = @preloaded_shas.size / 2
+          @preloaded_shas  = @preloaded_shas.to_a.sample(num_to_keep)
         end
-        cache_size         = @@preloaded_shas.size
+        cache_size         = @preloaded_shas.size
         _statsd_timing("preloaded_shas.cache_size",cache_size)
         return result
       end
@@ -176,10 +178,10 @@ class Redis
       end
     end
 
-    @@preloaded_shas = Set[] # [redis.object_id,sha(lua)] which have been loaded
+    @preloaded_shas = Set[] # [redis.object_id,sha(lua)] which have been loaded
 
     def self.purge_preloaded_shas # for test, clean state
-      @@preloaded_shas = Set[]
+      @preloaded_shas = Set[]
     end
 
     # To save bandwidth, minify the Lua code.
@@ -241,6 +243,8 @@ class Redis
       yield configuration
     end
 
+    # Configuration interface for Redis::ScriptManager.
+    #
     class Configuration
 
       # Defaults to nil. If non-nil, lots of stats will be tracked via
