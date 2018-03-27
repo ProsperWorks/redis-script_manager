@@ -247,6 +247,15 @@ class Redis
     #
     class Configuration
 
+      def initialize
+        @do_preload         = nil
+        @max_tiny_lua       = nil
+        @preload_cache_size = nil
+        @do_minify_lua      = nil
+        @stats_prefix       = nil
+        @statsd             = nil
+      end
+
       # Defaults to nil. If non-nil, lots of stats will be tracked via
       # statsd.increment and statsd.timing.
       #
