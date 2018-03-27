@@ -12,4 +12,4 @@ rvm:
   - 2.5.0
 script:
   - bundle exec rubocop --display-cop-names --display-style-guide
-  - bundle exec rake test
+  - bundle exec env REDIS_URL=redis://localhost:6379 rake test
