@@ -454,8 +454,12 @@ class Redis
         ].each do |args,expect,expect_stats|
           got       = Redis::ScriptManager.eval_gently(*args)
           got_stats = statsd.flush
-          assert_equal expect,       got,       args
-          assert_equal expect_stats, got_stats, args
+          if got
+            assert_equal expect,       got,       args
+          else
+            assert_nil                 got,       args
+          end
+          assert_equal   expect_stats, got_stats, args
         end
         #
         # Bogus args
