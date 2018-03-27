@@ -7,6 +7,9 @@ services:
   - redis-server
 rvm:
   - 2.1.6
+  - 2.2.9
+  - 2.4.3
+  - 2.5.0
 script:
-  - rubocop
-  - bundle exec env REDIS_URL=redis://localhost:6379 rake test
+  - bundle exec rubocop --display-cop-names --display-style-guide
+  - bundle exec rake test
