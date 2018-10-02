@@ -2,14 +2,15 @@ sudo: false
 language: ruby
 before_install:
   - gem install bundler -v 1.16.1
-  - gem install rubocop
+  - gem install rubocop -v 0.57.2
 services:
   - redis-server
 rvm:
   - 2.1.6
   - 2.2.9
-  - 2.4.3
-  - 2.5.0
+  - 2.3.7
+  - 2.4.4
+  - 2.5.1
 script:
   - bundle exec rubocop --display-cop-names --display-style-guide
   - bundle exec env REDIS_URL=redis://localhost:6379 rake test
