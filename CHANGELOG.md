@@ -1,5 +1,8 @@
+# 0.0.6 (TBD)
+- Expanded .travis.yml to cover more ruby versions.
+
 # 0.0.5 (2018-03-26)
-- Expanded .travis.yml to cover more rvm versions.
+- Expanded .travis.yml to cover more ruby versions.
 - Shrink Rubocop coverage to exclude `Style/*`.
 - Moves version history out into CHANGELOG.md.
 
