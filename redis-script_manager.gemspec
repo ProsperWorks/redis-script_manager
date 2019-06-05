@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   #
   # Also, the redis gem from 4.0.0 does not support rubies < 2.2.2.
   #
-  spec.required_ruby_version = ['>= 2.1.0', '< 2.7.0']       # tested to 2.6.3
+  spec.required_ruby_version = ['>= 2.2.2', '< 2.7.0']       # tested to 2.6.3
 
   spec.add_runtime_dependency 'redis', '>= 3.0.0', '< 5.0.0' # tested to 4.1.1
 

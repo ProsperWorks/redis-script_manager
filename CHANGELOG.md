@@ -1,4 +1,4 @@
-## 0.0.6 (2019-06-07)
+## 0.0.6 (2019-06-05)
 - Support for redis-rb >= 4.0.0 added.
 - Breaking changes at redis-rb v4.0.0 addressed.
 - Support for ruby < 2.2.2 dropped.
