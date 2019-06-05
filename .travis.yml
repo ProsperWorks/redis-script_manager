@@ -20,17 +20,17 @@ rvm:
   - 2.1.10
   #- 2.2.2
   #- 2.2.10
-  #- 2.3.7
+  - 2.3.7
   #- 2.4.6
   #- 2.5.5
-  #- 2.6.3
+  - 2.6.3
 gemfile:
   - gemfiles/redis_3.0.gemfile
   #- gemfiles/redis_3.1.gemfile
   #- gemfiles/redis_3.2.gemfile
   #- gemfiles/redis_3.3.gemfile
   #- gemfiles/redis_4.0.gemfile
-  #- gemfiles/redis_4.1.gemfile
+  - gemfiles/redis_4.1.gemfile
 script:
   - bundle _1.16.6_ exec rubocop --display-cop-names --display-style-guide
   - bundle _1.16.6_ exec env REDIS_URL=redis://localhost:6379 rake test
