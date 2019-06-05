@@ -38,7 +38,7 @@ PLATFORMS
 
 DEPENDENCIES
   appraisal (~> 2.2.0)
-  bundler
+  bundler (= 1.16.6)
   minitest (~> 5.11.3)
   rake (~> 12.3.1)
   redis (~> 3.0)
@@ -47,4 +47,4 @@ DEPENDENCIES
   rubocop (~> 0.54.0)
 
 BUNDLED WITH
-   2.0.1
+   1.16.6
