@@ -13,13 +13,13 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 gemspec
 
 group :development do
-  gem 'bundler'
   gem 'appraisal',            '~> 2.2.0'
+  gem 'bundler'
   gem 'rake',                 '~> 12.3.1'
 end
 
 group :test do
-  gem 'redis-namespace',      '~> 1.5'
   gem 'minitest',             '~> 5.11.3'
+  gem 'redis-namespace',      '~> 1.5'
   gem 'rubocop',              '~> 0.54.0'
 end

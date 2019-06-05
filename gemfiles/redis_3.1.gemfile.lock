@@ -2,7 +2,7 @@ PATH
   remote: ..
   specs:
     redis-script_manager (0.0.6)
-      redis
+      redis (>= 3.0.0, < 5.0.0)
 
 GEM
   remote: https://rubygems.org/
