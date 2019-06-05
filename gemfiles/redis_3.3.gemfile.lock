@@ -41,7 +41,7 @@ DEPENDENCIES
   bundler (= 1.16.6)
   minitest (~> 5.11.3)
   rake (~> 12.3.1)
-  redis (~> 3.3)
+  redis (>= 3.3, < 3.4)
   redis-namespace (~> 1.5)
   redis-script_manager!
   rubocop (~> 0.54.0)
