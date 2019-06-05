@@ -1,4 +1,5 @@
 require "redis/script_manager/version"
+require "digest"
 
 class Redis
 
