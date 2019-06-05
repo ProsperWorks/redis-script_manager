@@ -32,5 +32,5 @@ gemfile:
   #- gemfiles/redis_4.0.gemfile
   - gemfiles/redis_4.1.gemfile
 script:
-  - bundle exec rubocop --display-cop-names --display-style-guide
-  - bundle exec env REDIS_URL=redis://localhost:6379 rake test
+  - bundle _1.16.6_ exec rubocop --display-cop-names --display-style-guide
+  - bundle _1.16.6_ exec env REDIS_URL=redis://localhost:6379 rake test
