@@ -14,7 +14,7 @@ gemspec
 
 group :development do
   gem 'appraisal',            '~> 2.2.0'
-  gem 'bundler'
+  gem 'bundler',              '1.16.6'
   gem 'rake',                 '~> 12.3.1'
 end
 

@@ -8,9 +8,12 @@ before_install:
   # See https://docs.travis-ci.com/user/languages/ruby/#bundler-20 for
   # how this trickery works.
   #
+  - bundler --version || true
   - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
-  - gem install bundler -v '< 2'
+  - bundler --version || true
+  - gem install bundler -v 1.16.6
   - gem list --local bundler
+  - bundler --version || true
 services:
   - redis-server
 rvm:
