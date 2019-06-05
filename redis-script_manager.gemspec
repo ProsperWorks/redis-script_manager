@@ -21,7 +21,14 @@ Gem::Specification.new do |spec|
   # We use 'foo: bar' syntax liberally, not the older ':foo => bar'.
   # Possibly other Ruby 2-isms as well.
   #
-  spec.required_ruby_version = '>= 2.1'
+  # Also, the redis gem from 4.0.0 does not support rubies < 2.2.2.
+  #
+  spec.required_ruby_version = ['>= 2.1.0', '< 2.7.0']       # tested to 2.6.3
 
-  spec.add_runtime_dependency 'redis' # tested from 3.0 through 4.1
+  spec.add_runtime_dependency 'redis', '>= 3.0.0', '< 5.0.0' # tested to 4.1.1
+
+  # Development dependencies are captured in Gemfile, per the pattern:
+  #
+  #   https://github.com/jollygoodcode/jollygoodcode.github.io/issues/21
+  #
 end
