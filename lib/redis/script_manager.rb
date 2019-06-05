@@ -1,4 +1,5 @@
 require "redis/script_manager/version"
+require "digest"
 
 class Redis
 
@@ -29,7 +30,7 @@ class Redis
     # on redis
     #
     def self.eval_gently(redis,lua,keys=[],args=[])
-      [:eval,:evalsha,:script,:client].each do |method|
+      [:eval,:evalsha,:script].each do |method|
         if !redis.respond_to?(method) || !redis.respond_to?(:script)
           raise ArgumentError, "bogus redis #{redis}, no #{method}"
         end
@@ -147,8 +148,7 @@ class Redis
         _statsd_timing("preloaded_shas.cache_size",cache_size)
         return result
       end
-      in_pipeline = redis.client.is_a?(Redis::Pipeline) # thanks @marshall
-      if in_pipeline
+      if in_pipeline?(redis)
         _statsd_increment("pipeline_eval")
         return redis.eval(lua,keys,args)
       end
@@ -176,6 +176,20 @@ class Redis
         end
         raise ex
       end
+    end
+
+    # @return true if redis is currently in a pipeline, false otherwise
+    #
+    def self.in_pipeline?(redis)
+      #
+      # redis-rb 4.0 added support for the redis-server command
+      # CLIENT, and in so doing re-named the accessor for the lower
+      # level client from :client to :_client.
+      #
+      #   htps://github.com/redis/redis-rb/blob/master/CHANGELOG.md#40
+      #
+      client = redis.respond_to?(:_client) ? redis._client : redis.client
+      client.is_a?(Redis::Pipeline) # thanks @marshall
     end
 
     @preloaded_shas = Set[] # [redis.object_id,sha(lua)] which have been loaded

@@ -1,16 +1,35 @@
-sudo: false
+sudo:     false
 language: ruby
 before_install:
-  - gem install bundler -v 1.16.1
-  - gem install rubocop -v 0.57.2
+  #
+  # bundler >= 2.0.0 requires ruby >= 2.3.0 but we still want to
+  # support back to ruby 2.2.2.
+  #
+  # See https://docs.travis-ci.com/user/languages/ruby/#bundler-20 for
+  # how this trickery works.
+  #
+  - bundler --version || true
+  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - bundler --version || true
+  - gem install bundler -v 1.16.6
+  - gem list --local bundler
+  - bundler --version || true
 services:
   - redis-server
 rvm:
-  - 2.1.6
-  - 2.2.9
+  - 2.2.2
+  - 2.2.10
   - 2.3.7
-  - 2.4.4
-  - 2.5.1
+  - 2.4.6
+  - 2.5.5
+  - 2.6.3
+gemfile:
+  - gemfiles/redis_3.0.gemfile
+  - gemfiles/redis_3.1.gemfile
+  - gemfiles/redis_3.2.gemfile
+  - gemfiles/redis_3.3.gemfile
+  - gemfiles/redis_4.0.gemfile
+  - gemfiles/redis_4.1.gemfile
 script:
-  - bundle exec rubocop --display-cop-names --display-style-guide
-  - bundle exec env REDIS_URL=redis://localhost:6379 rake test
+  - bundle _1.16.6_ exec rubocop --display-cop-names --display-style-guide
+  - bundle _1.16.6_ exec env REDIS_URL=redis://localhost:6379 rake test

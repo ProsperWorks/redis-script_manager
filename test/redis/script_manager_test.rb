@@ -554,6 +554,15 @@ class Redis
       assert_equal expect_stats, Redis::ScriptManager.configuration.statsd.flush
     end
 
+    def test_in_pipeline?
+      return if !redis
+      assert_equal   false, Redis::ScriptManager.in_pipeline?(redis)
+      redis.pipelined do
+        assert_equal true,  Redis::ScriptManager.in_pipeline?(redis)
+      end
+      assert_equal   false, Redis::ScriptManager.in_pipeline?(redis)
+    end
+
     def test_implications_of_pipelined
       return if !redis
       Redis::ScriptManager.configuration.do_preload = false

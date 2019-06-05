@@ -81,8 +81,8 @@ to repopulate the cache in these cases.  It has no special provision
 for pipelines.  Called in a pipeline it will fail to recover from a
 cold cache.
 
-Like wolverine, redis-rb-scripting also supports a repository of .lua
-files with common code folding.
+Like wolverine, led also supports a repository of .lua files with
+common code folding.
 
 
 ## Installation
