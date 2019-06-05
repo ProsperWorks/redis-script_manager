@@ -1,9 +1,9 @@
 ## 0.0.6 (2019-06-07)
 - Support for redis-rb >= 4.0.0 added.
+- Breaking changes at redis-rb v4.0.0 addressed.
 - Support for ruby < 2.2.2 dropped.
 - Support for ruby 2.6 added.
 - Update ruby microversions tested in .travis.yml.
-- Breaking changes at redis-rb v4.0.0 addressed.
 - Gemfile, Appraisals, and .travis.yml set to test with redis-rb
   gems from 3.0 through 4.1.
 

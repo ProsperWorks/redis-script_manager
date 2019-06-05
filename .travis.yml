@@ -2,10 +2,14 @@ sudo:     false
 language: ruby
 before_install:
   #
-  # bundler 2.0.1 requires Ruby version >= 2.3.0 but we still want to
-  # support back to 2.2.2.
+  # bundler >= 2.0.0 requires ruby >= 2.3.0 but we still want to
+  # support back to ruby 2.2.2.
   #
-  - gem install bundler -v 1.17.1
+  # See https://docs.travis-ci.com/user/languages/ruby/#bundler-20 for
+  # how this trickery works.
+  #
+  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - gem install bundler -v '< 2'
 services:
   - redis-server
 rvm:
