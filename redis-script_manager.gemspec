@@ -23,10 +23,5 @@ Gem::Specification.new do |spec|
   #
   spec.required_ruby_version = '>= 2.1'
 
-  spec.add_development_dependency 'bundler',         '~> 1.16.1'
-  spec.add_development_dependency 'minitest',        '~> 5.11.3'
-  spec.add_development_dependency 'rake',            '~> 12.3.1'
-  spec.add_development_dependency 'redis-namespace', '~> 1.5'
-  spec.add_development_dependency 'rubocop',         '~> 0.54.0'
   spec.add_runtime_dependency     'redis',           '~> 3.2'
 end
