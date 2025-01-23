@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   #
   spec.required_ruby_version = ['>= 2.2.2', '< 4']       # tested to 3.3.1
 
-  spec.add_runtime_dependency 'redis', '>= 3.0.0', '< 6.0.0' # tested to 4.1.1
+  spec.add_runtime_dependency 'redis', '~> 5.3.0' #'>= 3.0.0', '< 6.0.0' # tested to 4.1.1
 
   # Development dependencies are captured in Gemfile, per the pattern:
   #
