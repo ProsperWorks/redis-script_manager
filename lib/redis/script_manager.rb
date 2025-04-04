@@ -181,6 +181,10 @@ class Redis
     # @return true if redis is currently in a pipeline, false otherwise
     #
     def self.in_pipeline?(redis)
+      # TODO: after full migration to redis gem v5, simplify the checks
+      if defined?(Redis::PipelinedConnection) && redis.is_a?(Redis::PipelinedConnection)
+        return true
+      end
       #
       # redis-rb 4.0 added support for the redis-server command
       # CLIENT, and in so doing re-named the accessor for the lower
@@ -188,8 +192,12 @@ class Redis
       #
       #   htps://github.com/redis/redis-rb/blob/master/CHANGELOG.md#40
       #
-      client = redis.respond_to?(:_client) ? redis._client : redis.client
-      client.is_a?(Redis::Pipeline) # thanks @marshall
+      if defined?(Redis::Pipeline)
+        client = redis.respond_to?(:_client) ? redis._client : redis.client
+        return client.is_a?(Redis::Pipeline) # thanks @marshall
+      end
+
+      false
     end
 
     @preloaded_shas = Set[] # [redis.object_id,sha(lua)] which have been loaded

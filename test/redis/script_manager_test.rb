@@ -557,8 +557,14 @@ class Redis
     def test_in_pipeline?
       return if !redis
       assert_equal   false, Redis::ScriptManager.in_pipeline?(redis)
-      redis.pipelined do
-        assert_equal true,  Redis::ScriptManager.in_pipeline?(redis)
+      # TODO: drop this after migration to redis gem v5
+      if Redis::VERSION < '5'
+        redis.pipelined do
+          assert_equal true,  Redis::ScriptManager.in_pipeline?(redis)
+        end
+      end
+      redis.pipelined do |pipeline|
+        assert_equal true, Redis::ScriptManager.in_pipeline?(pipeline)
       end
       assert_equal   false, Redis::ScriptManager.in_pipeline?(redis)
     end
@@ -596,12 +602,12 @@ class Redis
       l_lua_b         = "return '#{l_str_b}'"  # not cached, will evalsha
       s_got_b         = nil
       l_got_b         = nil
-      redis.pipelined do
-        s_got_b       = Redis::ScriptManager.eval_gently(redis,s_lua_b,['k'])
+      redis.pipelined do |pipeline|
+        s_got_b       = Redis::ScriptManager.eval_gently(pipeline,s_lua_b,['k'])
       end
       assert_equal s_str_b, s_got_b.value
-      redis.pipelined do
-        l_got_b       = Redis::ScriptManager.eval_gently(redis,l_lua_b,['k'])
+      redis.pipelined do |pipeline|
+        l_got_b       = Redis::ScriptManager.eval_gently(pipeline,l_lua_b,['k'])
       end
       #
       # In TDD style, this final assert fails if the in_pipeline check
@@ -648,16 +654,17 @@ class Redis
       l_lua_b         = "return '#{l_str_b}'"  # not cached, will evalsha
       s_got_b         = nil
       l_got_b         = nil
-      redis.pipelined do # triple up to see cache_hit and cache_miss
-        s_got_b       = Redis::ScriptManager.eval_gently(redis,s_lua_b,['k'])
-        s_got_b       = Redis::ScriptManager.eval_gently(redis,s_lua_b,['k'])
-        s_got_b       = Redis::ScriptManager.eval_gently(redis,s_lua_b,['k'])
+
+      redis.pipelined do |pipeline| # triple up to see cache_hit and cache_miss
+        s_got_b       = Redis::ScriptManager.eval_gently(pipeline,s_lua_b,['k'])
+        s_got_b       = Redis::ScriptManager.eval_gently(pipeline,s_lua_b,['k'])
+        s_got_b       = Redis::ScriptManager.eval_gently(pipeline,s_lua_b,['k'])
       end
       assert_equal s_str_b, s_got_b.value
-      redis.pipelined do # triple up to see cache_hit and cache_miss
-        l_got_b       = Redis::ScriptManager.eval_gently(redis,l_lua_b,['k'])
-        l_got_b       = Redis::ScriptManager.eval_gently(redis,l_lua_b,['k'])
-        l_got_b       = Redis::ScriptManager.eval_gently(redis,l_lua_b,['k'])
+      redis.pipelined do |pipeline| # triple up to see cache_hit and cache_miss
+        l_got_b       = Redis::ScriptManager.eval_gently(pipeline,l_lua_b,['k'])
+        l_got_b       = Redis::ScriptManager.eval_gently(pipeline,l_lua_b,['k'])
+        l_got_b       = Redis::ScriptManager.eval_gently(pipeline,l_lua_b,['k'])
       end
       #
       # In TDD style, this final assert fails if the in_pipeline check
