@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   end
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = ['>= 2.2.2', '< 4']   # tested to 3.3.2
+  spec.required_ruby_version = ['>= 2.2.2', '< 5']   # tested to 4.0.0
 
   spec.add_runtime_dependency 'redis', '>= 4', '< 6' # tested to 5.4.0
 end
